@@ -68,8 +68,7 @@ interface FieldProps {
   class?: string;
 }
 
-const inputClass =
-  "block w-full rounded-xl border border-gray-400 bg-white px-3 py-3 text-base focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-200";
+const inputClass = "block w-full rounded-xl border border-field bg-white px-3 py-3 text-base focus:border-primary";
 
 export const Field: FC<FieldProps> = (p) => {
   const id = p.id ?? `f-${p.name}`;
@@ -190,26 +189,25 @@ export const Checkbox: FC<{
 }> = (p) => {
   const id = p.id ?? `f-${p.name}`;
   return (
-    <div class="mb-4 flex items-start gap-3">
-      <input
-        id={id}
-        type="checkbox"
-        name={p.name}
-        value={p.value ?? "1"}
-        checked={p.checked}
-        aria-describedby={p.hint ? `${id}-hint` : undefined}
-        class="mt-0.5 size-6 shrink-0 accent-primary"
-      />
-      <div>
-        <label for={id} class="font-medium">
-          {p.label}
-        </label>
-        {p.hint ? (
-          <p id={`${id}-hint`} class="text-sm text-gray-700">
-            {p.hint}
-          </p>
-        ) : null}
-      </div>
+    <div class="mb-4">
+      {/* The whole label row is the tap target (at least 44px tall). */}
+      <label for={id} class="flex min-h-11 cursor-pointer items-center gap-3 font-medium">
+        <input
+          id={id}
+          type="checkbox"
+          name={p.name}
+          value={p.value ?? "1"}
+          checked={p.checked}
+          aria-describedby={p.hint ? `${id}-hint` : undefined}
+          class="size-6 shrink-0 accent-primary"
+        />
+        <span>{p.label}</span>
+      </label>
+      {p.hint ? (
+        <p id={`${id}-hint`} class="pl-9 text-sm text-gray-700">
+          {p.hint}
+        </p>
+      ) : null}
     </div>
   );
 };
@@ -217,14 +215,14 @@ export const Checkbox: FC<{
 type ButtonKind = "primary" | "secondary" | "danger" | "ghost" | "accent";
 const buttonClass: Record<ButtonKind, string> = {
   primary: "bg-primary text-white hover:bg-primary-dark",
-  secondary: "border border-gray-400 bg-white text-ink hover:bg-gray-50",
+  secondary: "border border-field bg-white text-ink hover:bg-gray-50",
   danger: "border border-danger-200 bg-white text-danger hover:bg-danger-50",
   ghost: "text-primary hover:bg-primary-50",
   accent: "bg-accent text-navy hover:bg-accent-dark",
 };
 
 export const btn = (kind: ButtonKind = "primary", extra = "") =>
-  `inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-200 disabled:opacity-60 ${buttonClass[kind]} ${extra}`;
+  `inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold disabled:opacity-60 ${buttonClass[kind]} ${extra}`;
 
 export const Button: FC<{
   kind?: ButtonKind;
@@ -255,8 +253,8 @@ const statusTone: Record<LeadStatus, string> = {
   quoted: "bg-primary-100 text-primary-dark",
   accepted: "bg-success-50 text-success ring-1 ring-success-200",
   booked: "bg-success text-white",
-  done: "bg-slate-200 text-slate-800",
-  lost: "bg-slate-100 text-slate-700",
+  done: "bg-gray-200 text-gray-800",
+  lost: "bg-gray-100 text-gray-700",
 };
 export const StatusBadge: FC<{ status: LeadStatus }> = ({ status }) => (
   <span class={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${statusTone[status]}`}>

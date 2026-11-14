@@ -128,11 +128,11 @@ const SignInCard = ({
         <Button full>Sign in</Button>
       </form>
       <div class="mt-4 flex flex-wrap justify-between gap-2 text-sm">
-        <a class="text-primary underline" href="/forgot-password">
+        <a class="inline-flex min-h-11 items-center text-primary underline" href="/forgot-password">
           Forgot your password?
         </a>
         {demo ? null : (
-          <a class="text-primary underline" href="/signup">
+          <a class="inline-flex min-h-11 items-center text-primary underline" href="/signup">
             Create an account
           </a>
         )}

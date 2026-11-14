@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.1 (Lite) - 2026-11-15
+
+Phone and accessibility pass.
+
+- Every tap target is at least 44px tall on phones: the menu, sign out, status filters, footer links, checkboxes,
+  the photo picker and the quote editor fields.
+- Form field borders are darker (4.4:1 on white) and keyboard focus shows a clear outline on every control.
+- All colours, including the greys, now live in one block in `src/styles/input.css`.
+- New phone checks (`e2e/mobile.spec.ts`) run every main screen at 375px and 390px wide.
+
 ## 1.0.0 (Lite) - 2026-11-15
 
 First release of CatchDesk Lite, free and open source under the MIT licence.

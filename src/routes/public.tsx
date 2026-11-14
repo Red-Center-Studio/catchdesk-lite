@@ -133,7 +133,7 @@ const EnquiryForm = ({
               accept="image/*"
               multiple
               aria-describedby="f-photos-hint"
-              class="block w-full rounded-xl border border-gray-400 bg-white p-2 text-base file:mr-3 file:rounded-lg file:border-0 file:bg-primary-100 file:px-3 file:py-2 file:font-semibold file:text-primary-dark"
+              class="block w-full rounded-xl border border-field bg-white p-2.5 text-base file:mr-3 file:rounded-lg file:border-0 file:bg-primary-100 file:px-3 file:py-2 file:font-semibold file:text-primary-dark"
             />
             <p id="f-photos-hint" class="mt-1 text-sm text-gray-700">
               Photos help us quote without a visit. Each photo must be 10 MB or smaller.
@@ -403,7 +403,7 @@ const QuotePage = ({
 
       {open ? (
         <details class="mb-4 rounded-2xl border border-line bg-white p-4">
-          <summary class="cursor-pointer font-semibold text-navy">Not for you? Let us know</summary>
+          <summary class="min-h-11 cursor-pointer py-2.5 font-semibold text-navy">Not for you? Let us know</summary>
           <form method="post" action={`/q/${row.publicToken}/decline`} class="mt-3" data-enhance>
             <Csrf token={c.get("csrfToken")} />
             <TextArea label="Anything we could do differently?" name="customerReply" maxlength={1000} rows={3} />

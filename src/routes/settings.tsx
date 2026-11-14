@@ -85,7 +85,10 @@ const SettingsPage = async ({
           ["#form", "Enquiry form"],
           ["#team", "Team"],
         ].map(([href, label]) => (
-          <a class="rounded-full bg-white px-3 py-2 text-primary underline-offset-2 hover:underline" href={href}>
+          <a
+            class="inline-flex min-h-11 items-center rounded-full bg-white px-3 py-2 text-primary underline-offset-2 hover:underline"
+            href={href}
+          >
             {label}
           </a>
         ))}
@@ -280,7 +283,9 @@ const SettingsPage = async ({
             </button>
           </div>
           <details class="mb-4 text-sm">
-            <summary class="cursor-pointer font-medium text-primary">Add a button to your website</summary>
+            <summary class="min-h-11 cursor-pointer py-3 font-medium text-primary">
+              Add a button to your website
+            </summary>
             <p class="mt-2 text-gray-800">Paste this where you want the button. It opens your form.</p>
             <pre class="mt-2 overflow-x-auto rounded-lg bg-gray-100 p-3 text-xs">
               {`<a href="${origin}/enquire" style="display:inline-block;background:#0f5a4a;color:#fff;padding:12px 20px;border-radius:10px;text-decoration:none;font-weight:600">Get a quote</a>`}
@@ -328,7 +333,7 @@ const SettingsPage = async ({
                     <select
                       id={`role-${p.id}`}
                       name="role"
-                      class="rounded-lg border border-gray-400 bg-white px-2 py-2"
+                      class="min-h-11 rounded-lg border border-field bg-white px-2 py-2"
                     >
                       {ROLES.map((r) => (
                         <option value={r} selected={p.role === r}>

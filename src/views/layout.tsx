@@ -83,11 +83,11 @@ export const Page: FC<PageProps> = ({
         </main>
         {publicPage ? (
           <footer class="mx-auto max-w-3xl px-4 pb-8 text-center text-sm text-gray-700">
-            <a class="underline" href="/privacy">
+            <a class="inline-flex min-h-11 min-w-11 items-center justify-center px-2 underline" href="/privacy">
               Privacy
             </a>
             {" · "}
-            <a class="underline" href="/terms">
+            <a class="inline-flex min-h-11 min-w-11 items-center justify-center px-2 underline" href="/terms">
               Terms
             </a>
           </footer>
@@ -115,14 +115,17 @@ const Header: FC<{
   return (
     <header class="sticky top-0 z-40 bg-navy text-white shadow-md print:hidden">
       <div class="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
-        <a href="/" class="flex min-w-0 items-center gap-2 font-semibold text-white">
+        <a href="/" class="flex min-h-11 min-w-0 items-center gap-2 font-semibold text-white">
           <Logo />
           <span class="truncate">{businessName ?? words.appName}</span>
         </a>
         {user ? (
           <form method="post" action="/logout" class="shrink-0">
             <input type="hidden" name={CSRF_FIELD} value={csrf} />
-            <button type="submit" class="rounded-lg px-3 py-2 text-sm text-navy-200 hover:bg-white/10 hover:text-white">
+            <button
+              type="submit"
+              class="min-h-11 rounded-lg px-3 py-2 text-sm text-navy-200 hover:bg-white/10 hover:text-white"
+            >
               Sign out
             </button>
           </form>
@@ -138,8 +141,8 @@ const Header: FC<{
                   aria-current={active === l.key ? "page" : undefined}
                   class={
                     active === l.key
-                      ? "block whitespace-nowrap rounded-lg border-b-2 border-accent bg-white/15 px-1 py-2.5 text-center text-[13px] font-semibold text-white sm:px-3 sm:text-sm"
-                      : "block whitespace-nowrap rounded-lg border-b-2 border-transparent px-1 py-2.5 text-center text-[13px] text-navy-200 hover:bg-white/10 hover:text-white sm:px-3 sm:text-sm"
+                      ? "flex min-h-11 items-center justify-center whitespace-nowrap rounded-lg border-b-2 border-accent bg-white/15 px-1 py-2.5 text-center text-[13px] font-semibold text-white sm:px-3 sm:text-sm"
+                      : "flex min-h-11 items-center justify-center whitespace-nowrap rounded-lg border-b-2 border-transparent px-1 py-2.5 text-center text-[13px] text-navy-200 hover:bg-white/10 hover:text-white sm:px-3 sm:text-sm"
                   }
                 >
                   {l.label}

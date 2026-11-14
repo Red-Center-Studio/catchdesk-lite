@@ -38,7 +38,7 @@ async function page(c: Context<AppEnv>, error?: string, status: 200 | 400 | 401 
         <Alert tone="info">
           Want CatchDesk set up for you, with your services, prices and email done?{" "}
           <a
-            class="font-semibold text-primary underline"
+            class="inline-flex min-h-11 items-center font-semibold text-primary underline"
             href={c.get("settings").setupHelpUrl}
             target="_blank"
             rel="noopener"

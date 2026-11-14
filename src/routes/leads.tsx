@@ -83,10 +83,7 @@ const money = (c: Context<AppEnv>, cents: number) => formatMoney(cents, c.get("s
 
 const LeadRow = ({ c, l }: { c: Context<AppEnv>; l: Lead }) => (
   <li>
-    <a
-      href={`/leads/${l.id}`}
-      class="block rounded-2xl border border-line bg-white p-4 shadow-sm hover:border-primary focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-200"
-    >
+    <a href={`/leads/${l.id}`} class="block rounded-2xl border border-line bg-white p-4 shadow-sm hover:border-primary">
       <div class="flex flex-wrap items-center gap-2">
         <span class="font-semibold text-navy">{l.customerName}</span>
         <StatusBadge status={l.status} />
@@ -207,7 +204,7 @@ leadRoutes.get("/leads", view, async (c) => {
               <a
                 href={link({ status: t.key, page: "1" })}
                 aria-current={q.status === t.key ? "page" : undefined}
-                class={`block whitespace-nowrap rounded-full px-3 py-2 text-sm ${q.status === t.key ? "bg-primary font-semibold text-white" : "bg-white text-ink hover:bg-primary-50"}`}
+                class={`flex min-h-11 items-center whitespace-nowrap rounded-full px-3 py-2 text-sm ${q.status === t.key ? "bg-primary font-semibold text-white" : "bg-white text-ink hover:bg-primary-50"}`}
               >
                 {t.label} <span class="tabular-nums">{t.n}</span>
               </a>
@@ -227,7 +224,7 @@ leadRoutes.get("/leads", view, async (c) => {
           value={q.q ?? ""}
           maxlength={100}
           placeholder="Name, phone, email, address or number"
-          class="min-w-0 flex-1 rounded-xl border border-gray-400 bg-white px-3 py-2.5"
+          class="min-w-0 flex-1 rounded-xl border border-field bg-white px-3 py-2.5"
         />
         <Button kind="secondary">Search</Button>
       </form>
@@ -339,7 +336,7 @@ const NewLeadForm = async ({
               type="file"
               accept="image/*"
               multiple
-              class="block w-full rounded-xl border border-gray-400 bg-white p-2"
+              class="block w-full rounded-xl border border-field bg-white p-2.5"
             />
             <p data-photo-status class="mt-1 text-sm text-gray-700" aria-live="polite"></p>
           </div>
@@ -566,7 +563,7 @@ const LeadPage = async ({
                       maxlength={300}
                       placeholder={i < items.length ? "" : "Add a line, or pick a saved item"}
                       list="saved-items"
-                      class="mb-2 block w-full rounded-lg border border-gray-400 px-3 py-2"
+                      class="mb-2 block min-h-11 w-full rounded-lg border border-field px-3 py-2"
                     />
                     <div class="flex flex-wrap items-center gap-2">
                       <label class="flex items-center gap-1 text-sm">
@@ -576,7 +573,7 @@ const LeadPage = async ({
                           value={r.qty}
                           inputmode="decimal"
                           maxlength={9}
-                          class="w-16 rounded-lg border border-gray-400 px-2 py-2"
+                          class="min-h-11 w-16 rounded-lg border border-field px-2 py-2"
                         />
                       </label>
                       <label class="flex items-center gap-1 text-sm">
@@ -586,7 +583,7 @@ const LeadPage = async ({
                           value={r.price}
                           inputmode="decimal"
                           maxlength={13}
-                          class="w-28 rounded-lg border border-gray-400 px-2 py-2"
+                          class="min-h-11 w-28 rounded-lg border border-field px-2 py-2"
                         />
                       </label>
                       {r.amount ? (
@@ -664,7 +661,7 @@ const LeadPage = async ({
                   type="datetime-local"
                   name="scheduledFor"
                   value={l.scheduledFor ?? ""}
-                  class="rounded-xl border border-gray-400 bg-white px-3 py-2.5"
+                  class="rounded-xl border border-field bg-white px-3 py-2.5"
                 />
               </div>
               <Button kind="secondary">{l.scheduledFor ? "Change booking" : "Book it in"}</Button>
@@ -691,7 +688,7 @@ const LeadPage = async ({
                   list="lost-reasons"
                   maxlength={200}
                   value={l.lostReason}
-                  class="block w-full rounded-xl border border-gray-400 bg-white px-3 py-2.5"
+                  class="block w-full rounded-xl border border-field bg-white px-3 py-2.5"
                 />
                 <datalist id="lost-reasons">
                   {LOST_REASONS.map((r) => (
@@ -729,7 +726,7 @@ const LeadPage = async ({
                 required
                 maxlength={1000}
                 placeholder="For example: Called, left a voicemail"
-                class="block w-full rounded-xl border border-gray-400 bg-white px-3 py-2.5"
+                class="block w-full rounded-xl border border-field bg-white px-3 py-2.5"
               />
             </div>
             <Button kind="secondary">Add</Button>

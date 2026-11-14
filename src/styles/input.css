@@ -2,7 +2,8 @@
 @source "../";
 @source "../../public/app.js";
 
-/* CatchDesk colours. Change them here to rebrand. Every pair used for text meets WCAG 2.2 AA contrast. */
+/* CatchDesk colours: forest green and amber. Every colour the app uses is in this block, so change them here to
+   rebrand. Text pairs meet WCAG 2.2 AA (4.5:1, or 3:1 for large text); field borders and focus rings meet 3:1. */
 @theme {
   --color-ink: #17201d;
   --color-primary: #0f5a4a;
@@ -30,6 +31,22 @@
   /* Warm accent. */
   --color-accent: #f2a516;
   --color-accent-dark: #d48c00;
+  /* Neutrals (Tailwind's gray scale, fixed here so the palette lives in one place). */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5dc;
+  --color-gray-400: #99a1af;
+  --color-gray-500: #6a7282;
+  --color-gray-600: #4a5565;
+  --color-gray-700: #364153;
+  --color-gray-800: #1e2939;
+  --color-gray-900: #101828;
+  /* Form field borders: 4.4:1 on white, 3.5:1 on the page background. */
+  --color-field: #6b7c76;
+  /* Keyboard focus outline: primary on light surfaces, accent on the dark header and banners. */
+  --color-focus: #0f5a4a;
+  --color-focus-on-dark: #f2a516;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -48,6 +65,26 @@
   .dialog::backdrop {
     background: rgb(0 0 0 / 0.45);
   }
+}
+
+/* One visible keyboard focus style everywhere (at least 3:1 against the page). */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+.bg-navy :focus-visible,
+.bg-navy-800 :focus-visible,
+.bg-primary :focus-visible,
+.bg-primary:focus-visible {
+  outline-color: var(--color-focus-on-dark);
+}
+
+/* Phones: text inputs at 16px so iOS does not zoom, and no page-level sideways scroll. */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  overflow-wrap: anywhere;
 }
 
 [hidden] {
