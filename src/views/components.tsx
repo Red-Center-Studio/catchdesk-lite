@@ -1,0 +1,290 @@
+import type { Child, FC } from "hono/jsx";
+import { CSRF_FIELD } from "../lib/csrf-field";
+import { statusLabel, urgencyLabel, type LeadStatus, type Urgency } from "../labels";
+
+export const Csrf: FC<{ token: string }> = ({ token }) => <input type="hidden" name={CSRF_FIELD} value={token} />;
+
+/** Page title banner. `action` is an optional button shown on the right, such as "Add lead". */
+export const H1: FC<{ children?: Child; sub?: string | undefined; action?: Child }> = ({ children, sub, action }) => (
+  <div class="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-navy-800 px-5 py-4 text-white shadow-md">
+    <div class="min-w-0">
+      <h1 class="text-2xl font-bold tracking-tight">{children}</h1>
+      {sub ? <p class="mt-1 text-navy-200">{sub}</p> : null}
+    </div>
+    {action ?? null}
+  </div>
+);
+
+export const Card: FC<{ children?: Child; class?: string; id?: string; label?: string }> = (props) => (
+  <section
+    id={props.id}
+    aria-label={props.label}
+    class={`rounded-2xl border border-line bg-white p-4 shadow-md shadow-navy/5 sm:p-5 ${props.class ?? ""}`}
+  >
+    {props.children}
+  </section>
+);
+
+export const H2: FC<{ children?: Child; id?: string }> = ({ children, id }) => (
+  <h2 id={id} class="mb-3 border-l-4 border-accent pl-3 text-lg font-bold text-navy">
+    {children}
+  </h2>
+);
+
+type Tone = "info" | "success" | "error" | "warning";
+const toneClass: Record<Tone, string> = {
+  info: "border-primary-200 bg-primary-50 text-ink",
+  success: "border-success-200 bg-success-50 text-success",
+  error: "border-danger-200 bg-danger-50 text-danger",
+  warning: "border-alert-200 bg-alert-50 text-ink",
+};
+
+export const Alert: FC<{ tone?: Tone; children?: Child; id?: string }> = ({ tone = "info", children, id }) => (
+  <div
+    id={id}
+    role={tone === "error" ? "alert" : "status"}
+    class={`mb-4 rounded-xl border px-4 py-3 text-sm ${toneClass[tone]}`}
+  >
+    {children}
+  </div>
+);
+
+interface FieldProps {
+  label: string;
+  name: string;
+  type?: string;
+  value?: string | number | null | undefined;
+  required?: boolean;
+  autocomplete?: string;
+  inputmode?: "numeric" | "email" | "text" | "decimal" | "tel";
+  hint?: string;
+  maxlength?: number;
+  min?: number | string;
+  pattern?: string;
+  placeholder?: string;
+  id?: string;
+  /** Id of a <datalist> with suggestions. */
+  list?: string;
+  class?: string;
+}
+
+const inputClass =
+  "block w-full rounded-xl border border-gray-400 bg-white px-3 py-3 text-base focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary-200";
+
+export const Field: FC<FieldProps> = (p) => {
+  const id = p.id ?? `f-${p.name}`;
+  return (
+    <div class={`mb-4 ${p.class ?? ""}`}>
+      <label for={id} class="mb-1 block text-sm font-medium">
+        {p.label}
+        {p.required ? null : <span class="font-normal text-gray-600"> (optional)</span>}
+      </label>
+      <input
+        id={id}
+        name={p.name}
+        type={p.type ?? "text"}
+        value={p.value === null || p.value === undefined ? "" : String(p.value)}
+        required={p.required}
+        autocomplete={p.autocomplete}
+        inputmode={p.inputmode}
+        maxlength={p.maxlength}
+        min={p.min}
+        pattern={p.pattern}
+        placeholder={p.placeholder}
+        list={p.list}
+        aria-describedby={p.hint ? `${id}-hint` : undefined}
+        class={inputClass}
+      />
+      {p.hint ? (
+        <p id={`${id}-hint`} class="mt-1 text-sm text-gray-700">
+          {p.hint}
+        </p>
+      ) : null}
+    </div>
+  );
+};
+
+export const TextArea: FC<{
+  label: string;
+  name: string;
+  value?: string;
+  maxlength: number;
+  rows?: number;
+  required?: boolean;
+  hint?: string;
+  id?: string;
+}> = (p) => {
+  const id = p.id ?? `f-${p.name}`;
+  return (
+    <div class="mb-4">
+      <label for={id} class="mb-1 block text-sm font-medium">
+        {p.label}
+        {p.required ? null : <span class="font-normal text-gray-600"> (optional)</span>}
+      </label>
+      <textarea
+        id={id}
+        name={p.name}
+        rows={p.rows ?? 3}
+        maxlength={p.maxlength}
+        required={p.required}
+        aria-describedby={p.hint ? `${id}-hint` : undefined}
+        class={inputClass}
+      >
+        {p.value ?? ""}
+      </textarea>
+      {p.hint ? (
+        <p id={`${id}-hint`} class="mt-1 text-sm text-gray-700">
+          {p.hint}
+        </p>
+      ) : null}
+    </div>
+  );
+};
+
+export const Select: FC<{
+  label: string;
+  name: string;
+  options: { value: string; label: string }[];
+  value?: string | null | undefined;
+  required?: boolean;
+  hint?: string;
+  id?: string;
+  class?: string;
+}> = (p) => {
+  const id = p.id ?? `f-${p.name}`;
+  return (
+    <div class={`mb-4 ${p.class ?? ""}`}>
+      <label for={id} class="mb-1 block text-sm font-medium">
+        {p.label}
+        {p.required ? null : <span class="font-normal text-gray-600"> (optional)</span>}
+      </label>
+      <select
+        id={id}
+        name={p.name}
+        required={p.required}
+        aria-describedby={p.hint ? `${id}-hint` : undefined}
+        class={inputClass}
+      >
+        {p.options.map((o) => (
+          <option value={o.value} selected={o.value === (p.value ?? "")}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+      {p.hint ? (
+        <p id={`${id}-hint`} class="mt-1 text-sm text-gray-700">
+          {p.hint}
+        </p>
+      ) : null}
+    </div>
+  );
+};
+
+export const Checkbox: FC<{
+  label: Child;
+  name: string;
+  checked?: boolean;
+  hint?: string;
+  id?: string;
+  value?: string;
+}> = (p) => {
+  const id = p.id ?? `f-${p.name}`;
+  return (
+    <div class="mb-4 flex items-start gap-3">
+      <input
+        id={id}
+        type="checkbox"
+        name={p.name}
+        value={p.value ?? "1"}
+        checked={p.checked}
+        aria-describedby={p.hint ? `${id}-hint` : undefined}
+        class="mt-0.5 size-6 shrink-0 accent-primary"
+      />
+      <div>
+        <label for={id} class="font-medium">
+          {p.label}
+        </label>
+        {p.hint ? (
+          <p id={`${id}-hint`} class="text-sm text-gray-700">
+            {p.hint}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+};
+
+type ButtonKind = "primary" | "secondary" | "danger" | "ghost" | "accent";
+const buttonClass: Record<ButtonKind, string> = {
+  primary: "bg-primary text-white hover:bg-primary-dark",
+  secondary: "border border-gray-400 bg-white text-ink hover:bg-gray-50",
+  danger: "border border-danger-200 bg-white text-danger hover:bg-danger-50",
+  ghost: "text-primary hover:bg-primary-50",
+  accent: "bg-accent text-navy hover:bg-accent-dark",
+};
+
+export const btn = (kind: ButtonKind = "primary", extra = "") =>
+  `inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-200 disabled:opacity-60 ${buttonClass[kind]} ${extra}`;
+
+export const Button: FC<{
+  kind?: ButtonKind;
+  children?: Child;
+  type?: "submit" | "button";
+  name?: string;
+  value?: string;
+  class?: string;
+  full?: boolean;
+  confirm?: string;
+  formaction?: string;
+}> = (p) => (
+  <button
+    type={p.type ?? "submit"}
+    name={p.name}
+    value={p.value}
+    data-confirm={p.confirm}
+    formaction={p.formaction}
+    class={btn(p.kind, `${p.full ? "w-full" : ""} ${p.class ?? ""}`)}
+  >
+    {p.children}
+  </button>
+);
+
+const statusTone: Record<LeadStatus, string> = {
+  new: "bg-accent text-navy",
+  needs_info: "bg-alert-100 text-alert-700",
+  quoted: "bg-primary-100 text-primary-dark",
+  accepted: "bg-success-50 text-success ring-1 ring-success-200",
+  booked: "bg-success text-white",
+  done: "bg-slate-200 text-slate-800",
+  lost: "bg-slate-100 text-slate-700",
+};
+export const StatusBadge: FC<{ status: LeadStatus }> = ({ status }) => (
+  <span class={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${statusTone[status]}`}>
+    {statusLabel[status]}
+  </span>
+);
+
+export const UrgencyBadge: FC<{ urgency: Urgency }> = ({ urgency }) =>
+  urgency === "flexible" ? null : (
+    <span
+      class={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${urgency === "urgent" ? "bg-danger text-white" : "bg-alert-100 text-alert-700"}`}
+    >
+      {urgencyLabel[urgency]}
+    </span>
+  );
+
+export const Empty: FC<{ children?: Child }> = ({ children }) => (
+  <div class="rounded-2xl border-2 border-dashed border-line bg-white/70 p-6 text-center text-gray-700">{children}</div>
+);
+
+/** Label and value pairs, for customer details. */
+export const Facts: FC<{ rows: [string, Child][] }> = ({ rows }) => (
+  <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+    {rows.map(([k, v]) => (
+      <>
+        <dt class="font-medium text-gray-700">{k}</dt>
+        <dd class="min-w-0 break-words">{v}</dd>
+      </>
+    ))}
+  </dl>
+);

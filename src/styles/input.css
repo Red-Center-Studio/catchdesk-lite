@@ -1,0 +1,76 @@
+@import "tailwindcss";
+@source "../";
+@source "../../public/app.js";
+
+/* CatchDesk colours. Change them here to rebrand. Every pair used for text meets WCAG 2.2 AA contrast. */
+@theme {
+  --color-ink: #17201d;
+  --color-primary: #0f5a4a;
+  --color-primary-dark: #0a4237;
+  --color-primary-50: #f2faf7;
+  --color-primary-100: #e0f2ec;
+  --color-primary-200: #a8d9c9;
+  --color-danger: #b0200c;
+  --color-danger-50: #fef6f5;
+  --color-danger-200: #f9b3a9;
+  --color-success: #1e6c30;
+  --color-success-50: #f5faf6;
+  --color-success-200: #b7dcbf;
+  --color-alert-50: #fffaf0;
+  --color-alert-100: #fff4db;
+  --color-alert-200: #ffdc8a;
+  --color-alert-700: #7a4f00;
+  /* Darker surfaces: header, title banners and the page background. */
+  --color-navy: #0b2a26;
+  --color-navy-800: #123b34;
+  --color-navy-700: #1b4d44;
+  --color-navy-200: #bcd6cf;
+  --color-canvas: #dde8e4;
+  --color-line: #bccdc7;
+  /* Warm accent. */
+  --color-accent: #f2a516;
+  --color-accent-dark: #d48c00;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer components {
+  .dialog {
+    width: min(100% - 1.5rem, 34rem);
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    border: 1px solid var(--color-gray-200);
+    background: white;
+    color: var(--color-ink);
+    overflow-y: auto;
+  }
+  .dialog::backdrop {
+    background: rgb(0 0 0 / 0.45);
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Keep in-page links (like #team) clear of the sticky header. */
+[id] {
+  scroll-margin-top: 7.5rem;
+}
+
+/* Printed quotes: plain white pages, and cards are not split across pages. */
+@media print {
+  /* Keep the coloured banners and badges, so white text never prints on a white page. */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    background: white;
+  }
+  section {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}
